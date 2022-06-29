@@ -1,0 +1,7 @@
+id: reearth-plugin-api-demo
+name: Plugin API Demo
+version: 0.0.1
+extensions:
+  - id: layers
+    type: widget
+    name: Plugin API Layers Demo

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reearth Plugin API Demo</title>
+  <link rel="stylesheet" href="../common/style.css" />
+</head>
+
+<body>
+  <div id="wrapper">
+    <div class="header">Plugin API Demo</div>
+    <div class="content">
+
+      <div class="api-field">
+        <h1>On</h1>
+        <div class="api-item">
+          <div class="line">
+            <span>select</span>
+            <input id="selected-id" />
+          </div>
+        </div>
+      </div>
+
+      <div class="api-field">
+        <h1>Layers</h1>
+
+        <div class="api-item">
+          <div class="line">
+            <span>.layers</span>
+            <button id="get-layers-layers">Get</button>
+          </div>
+          <div class="line">
+            <span></span>
+            <textarea id="get-layers-layers-result" 
+            cols="30" rows="10" ></textarea>
+          </div>
+        </div>
+        
+        <div class="api-item">
+          <div class="line">
+            <span>.extensionIds</span>
+            <button id="get-layers-extension-ids">Get</button>
+          </div>
+          <div class="line">
+            <span></span>
+            <textarea id="get-layers-extension-ids-result" 
+            cols="30" rows="10" ></textarea>
+          </div>
+        </div>
+
+        <div class="api-item">
+          <div class="line">
+            <span>.append</span>
+            <div class="btn-ctn">
+              <button id="append-marker-layer">Marker</button>
+              <button id="append-photooverlay-layer">PhotoOverlay</button>
+              <button id="append-ellipsoid-layer">Ellipsoid</button>
+              <button id="append-model-layer">Model</button>
+              <button id="append-tileset-layer">Tileset</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="api-item">
+          <div class="line">
+            <span>.findById</span>
+            <input id="layers-find-by-id-id" placeholder="id" />
+          </div>
+          <div class="line">
+            <span></span>
+            <button id="layers-find-by-id">Find</button>
+          </div>
+          <div class="line">
+            <span></span>
+            <textarea id="layers-find-by-id-result" 
+            cols="30" rows="10" ></textarea>
+          </div>
+        </div>
+
+        <div class="api-item">
+          <div class="line">
+            <span>.overrideProperty</span>
+            <input id="override-target-id" placeholder="id" />
+          </div>
+          <div class="line">
+            <span></span>
+            <textarea id="override-properties" 
+              placeholder="properties"
+              cols="30" rows="10" ></textarea>
+          </div>
+          <div class="line">
+            <span></span>
+            <button id="override-property">Override</button>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="api-field">
+        <h1>Visualizer</h1>
+
+        <div class="api-item">
+          <div class="line">
+            <span>.camera.flyTo</span>
+            <button id="camera-flyto-playground">Playground</button>
+            <button id="camera-flyto-tileset">Tileset</button>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</body>
+
+</html>

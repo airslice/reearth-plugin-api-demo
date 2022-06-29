@@ -1,0 +1,14 @@
+{
+  "name": "reearth-plugin-api-demo",
+  "version": "0.0.1",
+  "description": "Demo of using reearth plugin API",
+  "main": "index.js",
+  "author": "lby <icesunex@hotmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "gen": "node ./scripts/gen.mjs"
+  },
+  "devDependencies": {
+    "node-zip": "^1.1.1"
+  }
+}
