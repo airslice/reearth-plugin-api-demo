@@ -1,5 +1,6 @@
-console.log('[PLUGIN] inited');
-
+// ===================================
+// COMMON Events
+// ===================================
 const bindCommonEvent = (event) => {
   document.getElementById(event.eleId).addEventListener("click", (e) => {
     parent.postMessage({
@@ -37,6 +38,10 @@ const commonEvents = [
   {
     eleId: "layers-append-tileset",
     action: "appendTilesetLayer",
+  },
+  {
+    eleId: "layers-append-resource",
+    action: "appendResourceLayer",
   },
   {
     eleId: "layers-append-folder",
@@ -159,3 +164,15 @@ const clog = (data) => {
     JSON.stringify(data.value)
   );
 };
+
+// ===================================
+// Widget INIT
+// ===================================
+console.log(
+  "%c Widget %c %s",
+  "background-color:#FFAA71;border-radius:2px;color:#000",
+  "",
+  "%c INIT %c",
+  "background-color:#00D0B9;border-radius:2px;color:#000",
+  ""
+);

@@ -171,6 +171,27 @@ handles.appendTilesetLayer = () => {
     },
     tags: [],
   });
+  tilesetAppended = true;
+}
+
+// ===================================
+// Append Resource
+// ===================================
+let resourceAppended = false;
+handles.appendTilesetLayer = () => {
+  if(resourceAppended) return;
+  reearth.layers.append({
+    extensionId: "resource",
+    isVisible: true,
+    title: `CZML`,
+    property: {
+      default: {
+        url: 'https://raw.githubusercontent.com/CesiumGS/cesium/master/Apps/SampleData/Vehicle.czml'
+      },
+    },
+    tags: [],
+  });
+  resourceAppended = true;
 }
 
 // ===================================
