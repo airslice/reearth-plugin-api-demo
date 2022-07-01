@@ -25,28 +25,16 @@
 
       <div class="api-field">
         <h1>Layers</h1>
-
-        <div class="api-item">
-          <div class="line">
-            <span>.layers</span>
-            <button id="get-layers-layers">Get</button>
-          </div>
-          <div class="line">
-            <span></span>
-            <textarea id="get-layers-layers-result" 
-            cols="30" rows="10" ></textarea>
-          </div>
-        </div>
         
         <div class="api-item">
           <div class="line">
             <span>.extensionIds</span>
-            <button id="get-layers-extension-ids">Get</button>
+            <button id="layers-get-extension-ids">Get</button>
           </div>
           <div class="line">
             <span></span>
-            <textarea id="get-layers-extension-ids-result" 
-            cols="30" rows="10" ></textarea>
+            <textarea id="layers-get-extension-ids-result"
+              class="h-l2"></textarea>
           </div>
         </div>
 
@@ -54,12 +42,49 @@
           <div class="line">
             <span>.append</span>
             <div class="btn-ctn">
-              <button id="append-marker-layer">Marker</button>
-              <button id="append-photooverlay-layer">PhotoOverlay</button>
-              <button id="append-ellipsoid-layer">Ellipsoid</button>
-              <button id="append-model-layer">Model</button>
-              <button id="append-tileset-layer">Tileset</button>
+              <button id="layers-append-marker">Marker</button>
+              <button id="layers-append-photooverlay">PhotoOverlay</button>
+              <button id="layers-append-ellipsoid">Ellipsoid</button>
+              <button id="layers-append-model">Model</button>
+              <button id="layers-append-tileset">Tileset</button>
             </div>
+          </div>
+
+          <div class="line">
+            <span></span>
+            <div class="btn-ctn">
+              <button id="layers-append-folder">Folder</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="api-item">
+          <div class="line">
+            <span></span>
+            <input id="layers-append-to-parent-id" placeholder="parentId" />
+          </div>
+          <div class="line">
+            <span></span>
+            <button id="layers-append-marker-to-parent">Marker as child</button>
+          </div>
+        </div>
+
+        <div class="api-item">
+          <div class="line">
+            <span></span>
+            <button id="layers-append-marker-with-infobox">Marker with infobox</button>
+          </div>
+        </div>
+
+        <div class="api-item">
+          <div class="line">
+            <span>.layers</span>
+            <button id="layers-get-layers">Get</button>
+          </div>
+          <div class="line">
+            <span></span>
+            <textarea id="layers-get-layers-result"
+              class="h-l10"></textarea>
           </div>
         </div>
 
@@ -74,25 +99,25 @@
           </div>
           <div class="line">
             <span></span>
-            <textarea id="layers-find-by-id-result" 
-            cols="30" rows="10" ></textarea>
+            <textarea id="layers-find-by-id-result"
+              class="h-l10"></textarea>
           </div>
         </div>
 
         <div class="api-item">
           <div class="line">
             <span>.overrideProperty</span>
-            <input id="override-target-id" placeholder="id" />
+            <input id="layers-override-property-target-id" placeholder="id" />
           </div>
           <div class="line">
             <span></span>
-            <textarea id="override-properties" 
+            <textarea id="layers-override-property-properties" 
               placeholder="properties"
-              cols="30" rows="10" ></textarea>
+              class="h-l10"></textarea>
           </div>
           <div class="line">
             <span></span>
-            <button id="override-property">Override</button>
+            <button id="layers-override-property">Override</button>
           </div>
         </div>
 

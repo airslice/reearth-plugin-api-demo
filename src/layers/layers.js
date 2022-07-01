@@ -9,10 +9,23 @@ const handles = {};
 // ===================================
 // Layers Properties
 // ===================================
+const processLayer = (layer) => {
+  const l = {
+    id: layer.id,
+    extensionId: layer.extensionId,
+    title: layer.title,
+  }
+  if(layer.children){
+    l.children = layer.children.map(cl => processLayer(cl));
+  }
+  return l;
+}
 handles.getLayersLayers = () => {
+  // process flat layers data to nested
+  const layers = reearth.layers.layers.map(l=>processLayer(l));
   reearth.ui.postMessage({
     title: 'layersLayers',
-    value: reearth.layers.layers
+    value: layers
   });
 }
 
@@ -161,6 +174,104 @@ handles.appendTilesetLayer = () => {
 }
 
 // ===================================
+// Append Folder
+// ===================================
+let folderIndex = 0;
+handles.appendFolderLayer = () => {
+  reearth.layers.append({
+    extensionId: "",
+    isVisible: true,
+    title: `Folder-${folderIndex}`,
+    children: [],
+    tags: [],
+  });
+}
+
+// ===================================
+// Append Marker to parent
+// ===================================
+let childMarkerIndex = 0;
+handles.appendMarkerToParent = (payload) => {
+  reearth.layers.append({
+    extensionId: "marker",
+    isVisible: true,
+    title: `Marker-${childMarkerIndex}`,
+    property: {
+      default: {
+        location: {
+          lat: 49 - 0.5 * childMarkerIndex,
+          lng: -109,
+        },
+        label: true,
+        labelText: `Child Marker ${childMarkerIndex.toString()}`,
+        labelTypography:{
+          fontSize: 18,
+          color: randomColor(),
+        }
+      },
+    },
+    tags: [],
+  }, payload.parentId);
+  childMarkerIndex ++;
+}
+
+// ===================================
+// Append Marker with infobox
+// ===================================
+let markerWithInfoboxAppended = false;
+handles.appendMarkerWithInfoboxLayer = () => {
+  if(markerWithInfoboxAppended) return;
+  reearth.layers.append({
+    extensionId: "marker",
+    isVisible: true,
+    title: `Marker with infobox`,
+    property: {
+      default: {
+        location: {
+          lat: 50,
+          lng: -109,
+        },
+        label: true,
+        labelText: `Marker infobox`,
+        labelTypography:{
+          fontSize: 18,
+          color: randomColor(),
+        }
+      },
+    },
+    infobox: {
+      blocks:[
+        {
+          extensionId: "textblock",
+          pluginId: "reearth",
+          property:{
+            default:{
+              text: 'HELLO WORLD'
+            }
+          }
+        },
+        {
+          extensionId: "imageblock",
+          pluginId: "reearth",
+          property:{
+            default:{
+              image: 'https://images.unsplash.com/photo-1655661811387-989070a0fbc3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1858&q=80'
+            }
+          }
+        }
+      ],
+      property:{
+        default:{
+          title: 'Marker Infobox Title'
+        }
+      }
+    },
+    tags: [],
+  });
+  markerWithInfoboxAppended = true;
+}
+
+// ===================================
 // Override Property
 // ===================================
 handles.layersOverrideProperty = (payload) => {
@@ -229,6 +340,7 @@ handles.cameraFlyToTailset = () => {
 // Message
 // ===================================
 reearth.on("message", msg => {
+  clog("message",msg);
   if (msg && msg.action) {
     handles[msg.action]?.(msg.payload);
   }
@@ -238,9 +350,24 @@ reearth.on("message", msg => {
 // Select
 // ===================================
 reearth.on("select", msg => {
-  console.log(msg);
+  clog("select",msg);
   reearth.ui.postMessage({
     title: 'selectedId',
     value: msg
   });
 })
+
+// ===================================
+// Helper Console Log
+// ===================================
+const clog = (eventName,data) => {
+  console.log(
+    "%c Re:earth %c %s",
+    "background-color:#FF9671;border-radius:2px;color:#000",
+    "",
+    "%c "+eventName+" %c %s",
+    "background-color:#00D0B9;border-radius:2px;color:#000",
+    "",
+    JSON.stringify(data)
+  );
+};

@@ -8,39 +8,43 @@ const bindCommonEvent = (event) => {
   });
 }
 
-// ===================================
-// Layers
-// ===================================
-
 const commonEvents = [
   // layers
   {
-    eleId: "get-layers-layers",
+    eleId: "layers-get-layers",
     action: "getLayersLayers",
   },
   {
-    eleId: "get-layers-extension-ids",
+    eleId: "layers-get-extension-ids",
     action: "getLayersExtensionIds",
   },
   {
-    eleId: "append-marker-layer",
+    eleId: "layers-append-marker",
     action: "appendMarkerLayer",
   },
   {
-    eleId: "append-photooverlay-layer",
+    eleId: "layers-append-photooverlay",
     action: "appendPhotooverlayLayer",
   },
   {
-    eleId: "append-ellipsoid-layer",
+    eleId: "layers-append-ellipsoid",
     action: "appendEllipsoidLayer",
   },
   {
-    eleId: "append-model-layer",
+    eleId: "layers-append-model",
     action: "appendModelLayer",
   },
   {
-    eleId: "append-tileset-layer",
+    eleId: "layers-append-tileset",
     action: "appendTilesetLayer",
+  },
+  {
+    eleId: "layers-append-folder",
+    action: "appendFolderLayer",
+  },
+  {
+    eleId: "layers-append-marker-with-infobox",
+    action: "appendMarkerWithInfoboxLayer",
   },
   // helper
   {
@@ -60,11 +64,10 @@ commonEvents.map((event) => {
 // ===================================
 // Override Property
 // ===================================
-document.getElementById("override-property").addEventListener("click", (e) => {
-  const id = document.getElementById("override-target-id").value;
+document.getElementById("layers-override-property").addEventListener("click", (e) => {
+  const id = document.getElementById("layers-override-property-target-id").value;
   if(!id) return;
-  const properties = document.getElementById("override-properties").value;
-  console.log(id,properties);
+  const properties = document.getElementById("layers-override-property-properties").value;
   parent.postMessage({
     action: "layersOverrideProperty",
     payload: {
@@ -86,8 +89,21 @@ const layersFindById = (e) => {
     }
   }, "*");
 };
-
 document.getElementById("layers-find-by-id").addEventListener("click", layersFindById);
+
+// ===================================
+// Layers append to parent
+// ===================================
+document.getElementById("layers-append-marker-to-parent").addEventListener("click", (e) => {
+  const parentId = document.getElementById("layers-append-to-parent-id").value;
+  if(!parentId) return;
+  parent.postMessage({
+    action: "appendMarkerToParent",
+    payload: {
+      parentId,
+    }
+  }, "*");
+});
 
 // ===================================
 // Receive Message
@@ -95,17 +111,18 @@ document.getElementById("layers-find-by-id").addEventListener("click", layersFin
 let selectedId = null;
 
 addEventListener("message", e => {
+  clog(e.data);
   if (e.source !== parent || !e.data.title) return;
   switch(e.data.title){
     case 'layersLayers':
-      document.getElementById("get-layers-layers-result").value = JSON.stringify(e.data.value);
+      document.getElementById("layers-get-layers-result").value = JSON.stringify(e.data.value);
       break;
     case 'layersExtensionIds':
-      document.getElementById("get-layers-extension-ids-result").value = JSON.stringify(e.data.value);
+      document.getElementById("layers-get-extension-ids-result").value = JSON.stringify(e.data.value);
       break;
     case 'selectedId':
       document.getElementById("selected-id").value = e.data.value;
-      // auto find
+      // fill find by id and trigger find
       if(selectedId !== e.data.value){
         selectedId = e.data.value;
         document.getElementById("layers-find-by-id-id").value = selectedId;
@@ -114,13 +131,31 @@ addEventListener("message", e => {
       break;
     case 'layersFindByIdResult':
       document.getElementById("layers-find-by-id-result").value = JSON.stringify(e.data.value);
-      // fill override
+      // fill override property
       if(e.data.value.property){
-        document.getElementById("override-properties").value = JSON.stringify(e.data.value.property);
-        document.getElementById("override-target-id").value = e.data.value.id;
+        document.getElementById("layers-override-property-properties").value = JSON.stringify(e.data.value.property);
+        document.getElementById("layers-override-property-target-id").value = e.data.value.id;
       }
       break;
     default:
       break;
   }
 });
+
+// ===================================
+// Helper Console Log
+// ===================================
+const clog = (data) => {
+  console.log(
+    "%c Widget %c %s",
+    "background-color:#FFAA71;border-radius:2px;color:#000",
+    "",
+    "%c message %c %s",
+    "background-color:#00D0B9;border-radius:2px;color:#000",
+    "",
+    "%c "+data.title+" %c %s",
+    "background-color:#0081C0;border-radius:2px;color:#fff",
+    "",
+    JSON.stringify(data.value)
+  );
+};
