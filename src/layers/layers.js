@@ -178,7 +178,7 @@ handles.appendTilesetLayer = () => {
 // Append Resource
 // ===================================
 let resourceAppended = false;
-handles.appendTilesetLayer = () => {
+handles.appendResouceLayer = () => {
   if(resourceAppended) return;
   reearth.layers.append({
     extensionId: "resource",
