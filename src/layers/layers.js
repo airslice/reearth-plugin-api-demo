@@ -22,17 +22,11 @@ const processLayer = (layer) => {
 }
 handles.getLayersLayers = () => {
   // process flat layers data to nested
+  console.log(reearth.layers.layers);
   const layers = reearth.layers.layers.map(l=>processLayer(l));
   reearth.ui.postMessage({
     title: 'layersLayers',
     value: layers
-  });
-}
-
-handles.getLayersExtensionIds = () => {
-  reearth.ui.postMessage({
-    title: 'layersExtensionIds',
-    value: reearth.layers.extensionIds
   });
 }
 
@@ -41,7 +35,7 @@ handles.getLayersExtensionIds = () => {
 // ===================================
 let markerIndex = 0;
 handles.appendMarkerLayer = () => {
-  reearth.layers.append({
+  reearth.layers.add({
     extensionId: "marker",
     isVisible: true,
     title: `Marker-${markerIndex}`,
@@ -76,7 +70,7 @@ const demoPhotoUrls = [
 ];
 let photooverlayIndex = 0;
 handles.appendPhotooverlayLayer = () => {
-  reearth.layers.append({
+  reearth.layers.add({
     extensionId: "photooverlay",
     isVisible: true,
     title: `Photooverlay-${photooverlayIndex}`,
@@ -100,7 +94,7 @@ handles.appendPhotooverlayLayer = () => {
 // ===================================
 let ellipsoidIndex = 0;
 handles.appendEllipsoidLayer = () => {
-  reearth.layers.append({
+  reearth.layers.add({
     extensionId: "ellipsoid",
     isVisible: true,
     title: `Ellipsolid-${ellipsoidIndex}`,
@@ -134,7 +128,7 @@ const demoModels = [
 ];
 let modelIndex = 0;
 handles.appendModelLayer = () => {
-  reearth.layers.append({
+  reearth.layers.add({
     extensionId: "model",
     isVisible: true,
     title: `Model-${modelIndex}`,
@@ -160,7 +154,7 @@ handles.appendModelLayer = () => {
 let tilesetAppended = false;
 handles.appendTilesetLayer = () => {
   if(tilesetAppended) return;
-  reearth.layers.append({
+  reearth.layers.add({
     extensionId: "tileset",
     isVisible: true,
     title: `Tileset`,
@@ -180,7 +174,7 @@ handles.appendTilesetLayer = () => {
 let resourceAppended = false;
 handles.appendResouceLayer = () => {
   if(resourceAppended) return;
-  reearth.layers.append({
+  reearth.layers.add({
     extensionId: "resource",
     isVisible: true,
     title: `CZML`,
@@ -199,7 +193,7 @@ handles.appendResouceLayer = () => {
 // ===================================
 let folderIndex = 0;
 handles.appendFolderLayer = () => {
-  reearth.layers.append({
+  reearth.layers.add({
     extensionId: "",
     isVisible: true,
     title: `Folder-${folderIndex}`,
@@ -213,7 +207,7 @@ handles.appendFolderLayer = () => {
 // ===================================
 let childMarkerIndex = 0;
 handles.appendMarkerToParent = (payload) => {
-  reearth.layers.append({
+  reearth.layers.add({
     extensionId: "marker",
     isVisible: true,
     title: `Marker-${childMarkerIndex}`,
@@ -242,7 +236,7 @@ handles.appendMarkerToParent = (payload) => {
 let markerWithInfoboxAppended = false;
 handles.appendMarkerWithInfoboxLayer = () => {
   if(markerWithInfoboxAppended) return;
-  reearth.layers.append({
+  reearth.layers.add({
     extensionId: "marker",
     isVisible: true,
     title: `Marker with infobox`,
@@ -293,6 +287,110 @@ handles.appendMarkerWithInfoboxLayer = () => {
 }
 
 // ===================================
+// Append Marker with Folder
+// ===================================
+let markerWithFolderAppended = false;
+handles.appendMarkerWithFolderLayer = () => {
+  if(markerWithFolderAppended) return;
+  reearth.layers.add({
+    extensionId: "",
+    isVisible: true,
+    title: `Marker-Folder-0`,
+    children: [
+      {
+        extensionId: "marker",
+        isVisible: true,
+        title: `Marker-0-0`,
+        property: {
+          default: {
+            location: {
+              lat: 48,
+              lng: -112,
+            },
+            label: true,
+            labelText: `Marker-0-0`,
+            labelTypography:{
+              fontSize: 18,
+              color: randomColor(),
+            }
+          },
+        },
+        tags: [],
+      },
+      {
+        extensionId: "",
+        isVisible: true,
+        title: `Marker-Folder-1`,
+        children: [
+          {
+            extensionId: "marker",
+            isVisible: true,
+            title: `Marker-1-0`,
+            property: {
+              default: {
+                location: {
+                  lat: 47.5,
+                  lng: -111,
+                },
+                label: true,
+                labelText: `Marker-1-0`,
+                labelTypography:{
+                  fontSize: 18,
+                  color: randomColor(),
+                }
+              },
+            },
+            tags: [],
+          },
+          {
+            extensionId: "marker",
+            isVisible: true,
+            title: `Marker-1-1`,
+            property: {
+              default: {
+                location: {
+                  lat: 47,
+                  lng: -111,
+                },
+                label: true,
+                labelText: `Marker-1-1`,
+                labelTypography:{
+                  fontSize: 18,
+                  color: randomColor(),
+                }
+              },
+            },
+            tags: [],
+          },
+        ]
+      },
+      {
+        extensionId: "marker",
+        isVisible: true,
+        title: `Marker-0-1`,
+        property: {
+          default: {
+            location: {
+              lat: 46.5,
+              lng: -112,
+            },
+            label: true,
+            labelText: `Marker-0-1`,
+            labelTypography:{
+              fontSize: 18,
+              color: randomColor(),
+            }
+          },
+        },
+        tags: [],
+      },
+    ],
+    tags: [],
+  });
+  markerWithFolderAppended = true;
+}
+
+// ===================================
 // Override Property
 // ===================================
 handles.layersOverrideProperty = (payload) => {
@@ -322,7 +420,8 @@ handles.layersFindById = (payload) => {
     propertyId: layer.propertyId,
     tags: layer.tags,
     title: layer.title,
-    type: layer.type
+    type: layer.type,
+    creator: layer.creator,
   } : {};
 
   reearth.ui.postMessage({

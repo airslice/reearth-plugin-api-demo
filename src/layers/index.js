@@ -16,10 +16,6 @@ const commonEvents = [
     action: "getLayersLayers",
   },
   {
-    eleId: "layers-get-extension-ids",
-    action: "getLayersExtensionIds",
-  },
-  {
     eleId: "layers-append-marker",
     action: "appendMarkerLayer",
   },
@@ -50,6 +46,10 @@ const commonEvents = [
   {
     eleId: "layers-append-marker-with-infobox",
     action: "appendMarkerWithInfoboxLayer",
+  },
+  {
+    eleId: "layers-append-marker-with-folder",
+    action: "appendMarkerWithFolderLayer",
   },
   // helper
   {
