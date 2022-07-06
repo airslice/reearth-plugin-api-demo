@@ -2,7 +2,18 @@ reearth.ui.show(`
 [HTML]
 `,{width: 500, height: 500});
 
-const randomColor = () => '#'+['00','99','ff'].sort(()=>Math.random()>0.5 ? -1 : 1).join('')+'ff';
+const randomColor = () => hslToHex(Math.floor(Math.random()*360),80,60)+'ff';
+
+const hslToHex = (h, s, l) => {
+  l /= 100;
+  const a = s * Math.min(l, 1 - l) / 100;
+  const f = n => {
+    const k = (n + h / 30) % 12;
+    const color = l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
+    return Math.round(255 * color).toString(16).padStart(2, '0');
+  };
+  return `#${f(0)}${f(8)}${f(4)}`;
+}
 
 const handles = {};
 
@@ -187,6 +198,107 @@ handles.appendResouceLayer = () => {
   });
   resourceAppended = true;
 }
+
+// ===================================
+// Append Polyline
+// ===================================
+let polylineIndex = 0;
+const polylinePoint = (polylineIndex,i) => {
+  return {
+    lat: 51 + 0.5 * polylineIndex + Math.random(),
+    lng: -102 + 2 * i + Math.random(),
+    height: 10000 + 50000 * Math.random(),
+  }
+}
+handles.appendPolylineLayer = () => {
+  const count = 1 + Math.ceil(Math.random() * 10);
+  const coordinates = [];
+  for(let i = 0; i < count; i += 1){
+    coordinates.push(polylinePoint(polylineIndex,i));
+  }
+  reearth.layers.add({
+    extensionId: "polyline",
+    isVisible: true,
+    title: `Polyline-${polylineIndex}`,
+    property: {
+      default: {
+        coordinates: coordinates,
+        strokeColor: randomColor(),
+        strokeWidth: 1 + Math.random() * 5
+      },
+    },
+    tags: [],
+  });
+  polylineIndex ++;
+}
+
+// ===================================
+// Append Polygon
+// ===================================
+let polygonIndex = 0;
+const polygonPoint = (polygonIndex,i,count) => {
+  const length = 0.5 + 0.5 * Math.random();
+  const radian = i / count * Math.PI * 2;
+  return {
+    lat: 51 + 1.5 * polygonIndex + Math.sin(radian) * length,
+    lng: -105 + Math.cos(radian) * length,
+    height: 10000 + 50000 * Math.random(),
+  }
+}
+handles.appendPolygonLayer = () => {
+  const count = 2 + Math.ceil(Math.random() * 4);
+  const polygon = [];
+  for(let i = 0; i < count; i += 1){
+    polygon.push(polygonPoint(polygonIndex,i,count));
+  }
+  reearth.layers.add({
+    extensionId: "polygon",
+    isVisible: true,
+    title: `Polygon-${polygonIndex}`,
+    property: {
+      default: {
+        polygon: [polygon],
+        stroke: true,
+        strokeColor: randomColor(),
+        strokeWidth: 1 + Math.random() * 5,
+        fill: true,
+        fillColor: randomColor(),
+      },
+    },
+    tags: [],
+  });
+  polygonIndex ++;
+}
+
+// ===================================
+// Append Rect
+// ===================================
+let rectIndex = 0;
+handles.appendRectLayer = () => {
+  reearth.layers.add({
+    extensionId: "rect",
+    isVisible: true,
+    title: `Rect-${rectIndex}`,
+    property: {
+      default: {
+        rect: { 
+          west: -107.5 - Math.random(), 
+          east: -107 + Math.random(), 
+          north: 51 + rectIndex + Math.random(), 
+          south: 51 + rectIndex - Math.random(), },
+        fillColor: randomColor(),
+        extrudedHeight: 10000,
+        outlineColor: randomColor(),
+        outlineWidth: 1 + Math.random() * 5,
+        height: 10000 + Math.random() * 10000,
+        extrudedHeight: 10000 + Math.random() * 10000,
+      },
+    },
+    tags: [],
+  });
+  rectIndex ++;
+}
+
 
 // ===================================
 // Append Folder

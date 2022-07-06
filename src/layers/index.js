@@ -40,6 +40,18 @@ const commonEvents = [
     action: "appendResourceLayer",
   },
   {
+    eleId: "layers-append-polyline",
+    action: "appendPolylineLayer",
+  },
+  {
+    eleId: "layers-append-polygon",
+    action: "appendPolygonLayer",
+  },
+  {
+    eleId: "layers-append-rect",
+    action: "appendRectLayer",
+  },
+  {
     eleId: "layers-append-folder",
     action: "appendFolderLayer",
   },
