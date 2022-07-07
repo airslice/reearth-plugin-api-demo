@@ -31,14 +31,18 @@ const processLayer = (layer) => {
   }
   return l;
 }
-handles.getLayersLayers = () => {
-  // process flat layers data to nested
-  console.log(reearth.layers.layers);
-  const layers = reearth.layers.layers.map(l=>processLayer(l));
+const layersUpdateAction = (layers) => {
   reearth.ui.postMessage({
     title: 'layersLayers',
     value: layers
   });
+  reearth.ui.postMessage({
+    title: 'layersLayersTree',
+    value: layers.map(l=>processLayer(l))
+  });
+}
+handles.getLayersLayers = () => {
+  layersUpdateAction(reearth.layers.layers);
 }
 
 // ===================================
@@ -67,6 +71,8 @@ handles.appendMarkerLayer = () => {
     tags: [],
   });
   markerIndex ++;
+  // update layer
+  layersUpdateAction(reearth.layers.layers);
 }
 
 // ===================================
@@ -98,6 +104,8 @@ handles.appendPhotooverlayLayer = () => {
     tags: [],
   });
   photooverlayIndex ++;
+  // update layer
+  layersUpdateAction(reearth.layers.layers);
 }
 
 // ===================================
@@ -123,6 +131,8 @@ handles.appendEllipsoidLayer = () => {
     tags: [],
   });
   ellipsoidIndex ++;
+  // update layer
+  layersUpdateAction(reearth.layers.layers);
 }
 
 // ===================================
@@ -157,6 +167,8 @@ handles.appendModelLayer = () => {
     tags: [],
   });
   modelIndex ++;
+  // update layer
+  layersUpdateAction(reearth.layers.layers);
 }
 
 // ===================================
@@ -177,6 +189,8 @@ handles.appendTilesetLayer = () => {
     tags: [],
   });
   tilesetAppended = true;
+  // update layer
+  layersUpdateAction(reearth.layers.layers);
 }
 
 // ===================================
@@ -197,6 +211,8 @@ handles.appendResouceLayer = () => {
     tags: [],
   });
   resourceAppended = true;
+  // update layer
+  layersUpdateAction(reearth.layers.layers);
 }
 
 // ===================================
@@ -230,6 +246,8 @@ handles.appendPolylineLayer = () => {
     tags: [],
   });
   polylineIndex ++;
+  // update layer
+  layersUpdateAction(reearth.layers.layers);
 }
 
 // ===================================
@@ -268,6 +286,8 @@ handles.appendPolygonLayer = () => {
     tags: [],
   });
   polygonIndex ++;
+  // update layer
+  layersUpdateAction(reearth.layers.layers);
 }
 
 // ===================================
@@ -297,6 +317,8 @@ handles.appendRectLayer = () => {
     tags: [],
   });
   rectIndex ++;
+  // update layer
+  layersUpdateAction(reearth.layers.layers);
 }
 
 
@@ -312,6 +334,8 @@ handles.appendFolderLayer = () => {
     children: [],
     tags: [],
   });
+  // update layer
+  layersUpdateAction(reearth.layers.layers);
 }
 
 // ===================================
@@ -340,6 +364,8 @@ handles.appendMarkerToParent = (payload) => {
     tags: [],
   }, payload.parentId);
   childMarkerIndex ++;
+  // update layer
+  layersUpdateAction(reearth.layers.layers);
 }
 
 // ===================================
@@ -396,6 +422,8 @@ handles.appendMarkerWithInfoboxLayer = () => {
     tags: [],
   });
   markerWithInfoboxAppended = true;
+  // update layer
+  layersUpdateAction(reearth.layers.layers);
 }
 
 // ===================================
@@ -500,6 +528,8 @@ handles.appendMarkerWithFolderLayer = () => {
     tags: [],
   });
   markerWithFolderAppended = true;
+  // update layer
+  layersUpdateAction(reearth.layers.layers);
 }
 
 // ===================================
@@ -540,6 +570,13 @@ handles.layersFindById = (payload) => {
     title: 'layersFindByIdResult',
     value: layerData
   });
+}
+
+// ===================================
+// Select Layer
+// ===================================
+handles.layersSelect = (payload) => {
+  reearth.layers.select(payload.id);
 }
 
 // ===================================

@@ -59,7 +59,7 @@ body {
   justify-content: space-between;
 }
 
-.line span {
+.api-name{
   flex-shrink: 0;
   display: inline-block;
   width: 150px;
@@ -160,6 +160,52 @@ textarea.h-l10{
 
 input,
 button,
-textarea{
+textarea,
+.value-ctn{
   font-family: Menlo, Monaco, 'Courier New', monospace,"Noto Sans","hiragino sans","hiragino kaku gothic proN",-apple-system,BlinkMacSystem,sans-serif;
+}
+
+.value-ctn{
+  background: rgba(0, 0, 0, 0.9);
+  width: 100%;
+}
+/* layer tree */
+.layer-item{
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  cursor: pointer;
+  font-size: 12px;
+  padding: 0 2px;
+  width: 100%;
+  height: 21px;
+}
+.layer-item.active .layer-type{
+  background-color: rgb(255, 0, 115);
+}
+.layer-item:hover{
+  background-color: #f90;
+}
+.layer-item:hover .layer-title{
+  color: #000;
+}
+
+
+.layer-type{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 17px;
+  height: 17px;
+  flex-grow: 0;
+  color: rgb(180, 180, 180);
+  font-weight: bold;
+  background-color: #333;
+}
+.layer-title{
+  padding: 0 5px;
+  color: rgb(180, 180, 180);
+}
+.layer-folder{
+  padding-left: 20px;
 }

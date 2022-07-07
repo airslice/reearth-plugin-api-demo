@@ -123,6 +123,81 @@ document.getElementById("layers-append-marker-to-parent").addEventListener("clic
 });
 
 // ===================================
+// Layers Tree
+// ===================================
+const layerTypeS = {
+  marker: 'M',
+  photooverlay: 'P',
+  ellipsoid: 'E',
+  model: 'O',
+  tileset: 'T',
+  resource: 'S',
+  polyline: 'L',
+  polygon: 'G',
+  rect: 'R',
+}
+const processLayer = (l, tar) => {
+  const wrap = document.createElement('div');
+  wrap.className = 'layer-wrap';
+  const item = document.createElement('a');
+  item.className = 'layer-item';
+  item.title = l.id;
+  item.id = l.id;
+  const itemType = document.createElement('span');
+  itemType.className = 'layer-type';
+  itemType.title = l.extensionId ?? 'folder';
+  itemType.innerHTML = layerTypeS[l.extensionId] ?? 'F';
+  const itemTitle = document.createElement('span');
+  itemTitle.className = 'layer-title';
+  itemTitle.innerHTML = l.title;
+
+  item.appendChild(itemType);
+  item.appendChild(itemTitle);
+  wrap.appendChild(item);
+
+  if(l.children){
+    const folder = document.createElement('div');
+    folder.className = 'layer-folder';
+    l.children.forEach(c => {
+      processLayer(c, folder);
+    })
+    wrap.appendChild(folder);
+  }
+  tar.appendChild(wrap);
+}
+const rebuildLayersTree = (layers) => {
+  if(layers){
+    const ctn = document.getElementById('layers-get-layers-tree');
+    ctn.innerHTML = ""; 
+    layers.forEach(l=>{
+      processLayer(l,ctn);
+    })
+  }
+  const layerItems = document.getElementsByClassName('layer-item');
+  Array.prototype.forEach.call(layerItems,(ele)=>{
+    ele.addEventListener('click',(e)=>{
+      parent.postMessage({
+        action: "layersSelect",
+        payload: {
+          id: ele.id,
+        }
+      }, "*");
+    })
+  })
+  if(selectedId){
+    setCurrentLayerHighlight(selectedId);
+  }
+}
+const setCurrentLayerHighlight = (id) => {
+  const layerItems = document.getElementsByClassName('layer-item');
+  Array.prototype.forEach.call(layerItems,(ele)=>{
+    ele.className = 'layer-item';
+  })
+  const cur = document.getElementById(id);
+  if(cur) cur.className = 'layer-item active';
+}
+
+// ===================================
 // Receive Message
 // ===================================
 let selectedId = null;
@@ -134,6 +209,9 @@ addEventListener("message", e => {
     case 'layersLayers':
       document.getElementById("layers-get-layers-result").value = JSON.stringify(e.data.value);
       break;
+    case 'layersLayersTree':
+      rebuildLayersTree(e.data.value);
+      break;
     case 'layersExtensionIds':
       document.getElementById("layers-get-extension-ids-result").value = JSON.stringify(e.data.value);
       break;
@@ -141,10 +219,14 @@ addEventListener("message", e => {
       document.getElementById("selected-id").value = e.data.value;
       // fill find by id and trigger find
       if(selectedId !== e.data.value){
-        selectedId = e.data.value;
-        document.getElementById("layers-find-by-id-id").value = selectedId;
+        document.getElementById("layers-find-by-id-id").value = e.data.value;
         layersFindById();
       }
+      // highlight layers tree
+      if(selectedId !== e.data.value){
+        setCurrentLayerHighlight(e.data.value);
+      }
+      selectedId = e.data.value;
       break;
     case 'layersFindByIdResult':
       document.getElementById("layers-find-by-id-result").value = JSON.stringify(e.data.value);
@@ -180,6 +262,10 @@ const clog = (data) => {
 // ===================================
 // Widget INIT
 // ===================================
+parent.postMessage({
+  action: "getLayersLayers",
+}, "*");
+
 console.log(
   "%c Widget %c %s",
   "background-color:#FFAA71;border-radius:2px;color:#000",
@@ -188,3 +274,4 @@ console.log(
   "background-color:#00D0B9;border-radius:2px;color:#000",
   ""
 );
+
