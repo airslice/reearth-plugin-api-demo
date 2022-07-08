@@ -538,7 +538,6 @@ handles.appendMarkerWithFolderLayer = () => {
 handles.layersOverrideProperty = (payload) => {
   try {
     const properties = eval(`(${payload.properties})`);
-    console.log(properties);
     reearth.layers.overrideProperty(payload.id, properties);
   } catch (error) {
     console.log(error);
@@ -566,9 +565,14 @@ handles.layersFindById = (payload) => {
     creator: layer.creator,
   } : {};
 
+  const overriddenProperties = reearth.layers.overriddenProperties[payload.id] ?? {};
+
   reearth.ui.postMessage({
     title: 'layersFindByIdResult',
-    value: layerData
+    value: {
+      layerData,
+      overriddenProperties
+    }
   });
 }
 

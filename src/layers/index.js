@@ -229,11 +229,12 @@ addEventListener("message", e => {
       selectedId = e.data.value;
       break;
     case 'layersFindByIdResult':
-      document.getElementById("layers-find-by-id-result").value = JSON.stringify(e.data.value);
+      document.getElementById("layers-find-by-id-result").value = JSON.stringify(e.data.value.layerData);
       // fill override property
-      if(e.data.value.property){
-        document.getElementById("layers-override-property-properties").value = JSON.stringify(e.data.value.property);
-        document.getElementById("layers-override-property-target-id").value = e.data.value.id;
+      if(e.data.value.layerData.property){
+        document.getElementById("layers-override-property-properties").value = JSON.stringify(Object.assign(e.data.value.layerData.property,
+          e.data.value.overriddenProperties));
+        document.getElementById("layers-override-property-target-id").value = e.data.value.layerData.id;
       }
       break;
     default:
