@@ -631,6 +631,13 @@ reearth.on("select", msg => {
 })
 
 // ===================================
+// Cameramove
+// ===================================
+reearth.on("cameramove", msg => {
+  clog("cameramove",msg);
+})
+
+// ===================================
 // Helper Console Log
 // ===================================
 const clog = (eventName,data) => {
