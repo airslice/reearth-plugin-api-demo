@@ -1,4 +1,6 @@
 const setMouseEventInfo = (data) => {
+  document.getElementById('x').value = data.x ?? '';
+  document.getElementById('y').value = data.y ?? '';
   document.getElementById('event').value = data.event ?? '';
   document.getElementById('lat').value = data.lat ?? '';
   document.getElementById('lng').value = data.lng ?? '';

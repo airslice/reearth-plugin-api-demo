@@ -226,6 +226,14 @@ textarea,
             <input id="event" disabled autocomplete="off"/>
           </div>
           <div class="line">
+            <span class="api-name">x</span>
+            <input id="x" disabled autocomplete="off"/>
+          </div>
+          <div class="line">
+            <span class="api-name">y</span>
+            <input id="y" disabled autocomplete="off"/>
+          </div>
+          <div class="line">
             <span class="api-name">lat</span>
             <input id="lat" disabled autocomplete="off"/>
           </div>
@@ -258,6 +266,8 @@ textarea,
 
     <script>
     const setMouseEventInfo = (data) => {
+  document.getElementById('x').value = data.x ?? '';
+  document.getElementById('y').value = data.y ?? '';
   document.getElementById('event').value = data.event ?? '';
   document.getElementById('lat').value = data.lat ?? '';
   document.getElementById('lng').value = data.lng ?? '';
