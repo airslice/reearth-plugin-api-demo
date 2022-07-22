@@ -5,9 +5,9 @@ import JSZip from 'node-zip';
 const projectPath = path.resolve('./');
 
 // TODO: load settings
-const widgets = ['layers'];
+const widgets = ['layers','mouse'];
 const pluginId = 'reearth-plugin-api-demo';
-const version = '0.0.1';
+const version = '0.0.2';
 
 const zip = new JSZip();
 

@@ -4,4 +4,7 @@ version: 0.0.1
 extensions:
   - id: layers
     type: widget
-    name: Plugin API Layers Demo
+    name: Plugin API Demo Layers
+  - id: mouse
+    type: widget
+    name: Plugin API Demo Mouse

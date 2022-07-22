@@ -1,7 +1,7 @@
 reearth.ui.show(`
 <style>
     html {
-  width: 500px;
+
 }
 
 body {
@@ -43,7 +43,7 @@ body {
 
 .content{
   height: 500px;
-  overflow: scroll;
+  overflow: auto;
   padding-bottom: 20px;
 }
 
@@ -77,6 +77,9 @@ body {
 }
 .btn-ctn button{
   width: 50%;
+}
+.btn-ctn.e3 button{
+  width: 33.333%;
 }
 
 .hidden {
@@ -214,7 +217,7 @@ textarea,
     </style>
     
   <div id="wrapper">
-    <div class="header">Plugin API Demo</div>
+    <div class="header">Plugin API Demo - Layers</div>
     <div class="content">
 
       <div class="api-field">
