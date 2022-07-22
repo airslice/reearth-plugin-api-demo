@@ -42,7 +42,7 @@ body {
 }
 
 .content{
-  height: 500px;
+  height: 472px;
   overflow: auto;
   padding-bottom: 20px;
 }
